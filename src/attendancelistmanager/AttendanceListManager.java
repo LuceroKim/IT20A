@@ -33,14 +33,22 @@ public class AttendanceListManager {
                 }
 
             } else if (choice == 2) {
-                System.out.print("Enter student ID: ");
-                String id = sc.nextLine();
-                System.out.print("Enter student name: ");
+                System.out.print("Enter student name to delete: ");
                 String name = sc.nextLine();
 
-                String data = name + " - " + id;
+                boolean found = false;
+                String toRemove = null;
 
-                if (students.remove(data)) {
+                for (String s : students) {
+                    if (s.toLowerCase().startsWith(name.toLowerCase())) {
+                        toRemove = s;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    students.remove(toRemove);
                     System.out.println("Student deleted!");
                 } else {
                     System.out.println("Student not found!");
