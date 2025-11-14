@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class AttendanceListManager {
 
     public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> ids = new ArrayList<>();
         HashSet<String> set = new HashSet<>();
         Scanner sc = new Scanner(System.in);
 
@@ -18,35 +19,51 @@ public class AttendanceListManager {
             int choice = Integer.parseInt(sc.nextLine());
 
             if (choice == 1) {
-                System.out.print("Enter name: ");
+                System.out.print("Enter student ID: ");
+                String id = sc.nextLine();
+
+                System.out.print("Enter student name: ");
                 String name = sc.nextLine();
 
-                if (set.contains(name.toLowerCase())) {
-                    System.out.println("Already in the list!");
+                String key = id + "-" + name.toLowerCase();
+
+                if (set.contains(key)) {
+                    System.out.println("Student already exists!");
                 } else {
-                    list.add(name);
-                    set.add(name.toLowerCase());
-                    System.out.println("Added!");
+                    ids.add(id);
+                    names.add(name);
+                    set.add(key);
+                    System.out.println("Student added!");
                 }
 
             } else if (choice == 2) {
-                System.out.print("Enter name to delete: ");
+                System.out.print("Enter student ID to delete: ");
+                String id = sc.nextLine();
+                System.out.print("Enter student name to delete: ");
                 String name = sc.nextLine();
 
-                if (set.remove(name.toLowerCase())) {
-                    list.removeIf(n -> n.equalsIgnoreCase(name));
-                    System.out.println("Deleted!");
+                String key = id + "-" + name.toLowerCase();
+
+                if (set.remove(key)) {
+                    for (int i = 0; i < ids.size(); i++) {
+                        if (ids.get(i).equals(id) && names.get(i).equalsIgnoreCase(name)) {
+                            ids.remove(i);
+                            names.remove(i);
+                            break;
+                        }
+                    }
+                    System.out.println("Student deleted!");
                 } else {
-                    System.out.println("Not found!");
+                    System.out.println("Student not found!");
                 }
 
             } else if (choice == 3) {
                 System.out.println("\nAttendance List:");
-                if (list.isEmpty()) {
+                if (names.isEmpty()) {
                     System.out.println("No students yet.");
                 } else {
-                    for (String s : list) {
-                        System.out.println("- " + s);
+                    for (int i = 0; i < names.size(); i++) {
+                        System.out.println(names.get(i) + " - " + ids.get(i));
                     }
                 }
 
